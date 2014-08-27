@@ -1,8 +1,8 @@
 from itertools import chain
 
 from django.db.models import Manager
-from django.db.models.query import QuerySet
 from django.dispatch import Signal
+from django_pandas.managers import DataFrameQuerySet
 from querybuilder.query import Query
 
 
@@ -396,8 +396,23 @@ def upsert(manager, defaults=None, updates=None, **kwargs):
 
     return obj, created
 
+class ManagerUtilsDataFrameQuerySet(DataFrameQuerySet):
+    """
+    Overides DataFrameQuerySet to have verbose=False in all methods
+    """
+    def to_pivot_table():
+        kwargs.update({'verbose': kwargs.get('verbose', False)})
+        return super(MetricDataFrameQuerySet, self).to_pivot_table(*args, **kwargs)
 
-class ManagerUtilsQuerySet(QuerySet):
+    def to_timeseries():
+        kwargs.update({'verbose': kwargs.get('verbose', False)})
+        return super(MetricDataFrameQuerySet, self).to_timeseries(*args, **kwargs)
+
+    def to_dataframe(self, *args, **kwargs):
+        kwargs.update({'verbose': kwargs.get('verbose', False)})
+        return super(MetricDataFrameQuerySet, self).to_dataframe(*args, **kwargs)
+
+class ManagerUtilsQuerySet(ManagerUtilsDataFrameQuerySet):
     """
     Defines the methods in the manager utils that can also be applied to querysets.
     """

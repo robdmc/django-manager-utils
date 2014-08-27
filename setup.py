@@ -37,7 +37,9 @@ setup(
     ],
     install_requires=[
         'django>=1.6',
+        'django-pandas>=0.2.0',
         'django-query-builder>=0.5.6',
+        'pandas>=0.14.1',
     ],
     tests_require=[
         'mock',
