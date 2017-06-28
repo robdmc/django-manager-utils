@@ -17,6 +17,16 @@ def get_version():
         raise RuntimeError('Unable to find version string in {0}.'.format(VERSION_FILE))
 
 
+tests_require = [
+    'coverage',
+    'mock',
+    'psycopg2',
+    'django-nose>=1.3',
+    'django-dynamic-fixture',
+    'pytz',
+    'django-timezone-field',
+]
+
 setup(
     name='django-manager-utils',
     version=get_version(),
@@ -42,15 +52,8 @@ setup(
         'django>=1.8',
         'django-query-builder>=0.14.0',
     ],
-    tests_require=[
-        'coverage',
-        'mock',
-        'psycopg2',
-        'django-nose>=1.3',
-        'django-dynamic-fixture',
-        'pytz',
-        'django-timezone-field',
-    ],
+    tests_require=tests_require,
+    extras_require={'dev': tests_require},
     test_suite='run_tests.run_tests',
     include_package_data=True,
 )
